@@ -1,7 +1,8 @@
 import { readdir, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const recipesDirectory = new URL('../recipes/', import.meta.url);
+const recipesDirectory = fileURLToPath(new URL('../recipes/', import.meta.url));
 const allowedPlatforms = new Set([
   'instagram',
   'whatsapp',
@@ -101,7 +102,7 @@ async function main() {
 
   for (const fileName of files) {
     try {
-      const raw = await readFile(join(recipesDirectory.pathname, fileName), 'utf8');
+      const raw = await readFile(join(recipesDirectory, fileName), 'utf8');
       const recipe = JSON.parse(raw);
       validateRecipe(recipe, fileName, knownIds);
       console.log(`✓ ${fileName}`);
