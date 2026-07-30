@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vantra.dev/schemas/automation-recipe.schema.json",
+  "title": "Vantra Automation Recipe",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "name",
+    "platform",
+    "category",
+    "difficulty",
+    "description",
+    "inputs",
+    "steps",
+    "privacy",
+    "testing"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "name": { "type": "string", "minLength": 5 },
+    "platform": {
+      "enum": ["instagram", "whatsapp", "telegram", "n8n", "make", "email", "sheets", "multi-platform"]
+    },
+    "category": {
+      "enum": ["customer-support", "sales", "lead-management", "appointments", "operations", "content", "analytics"]
+    },
+    "difficulty": { "enum": ["beginner", "intermediate", "advanced"] },
+    "description": { "type": "string", "minLength": 30 },
+    "inputs": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 2 },
+      "uniqueItems": true
+    },
+    "steps": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["order", "action", "description"],
+        "properties": {
+          "order": { "type": "integer", "minimum": 1 },
+          "action": { "type": "string", "minLength": 3 },
+          "description": { "type": "string", "minLength": 15 }
+        }
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["storesPersonalData", "notes"],
+      "properties": {
+        "storesPersonalData": { "type": "boolean" },
+        "notes": { "type": "string", "minLength": 20 }
+      }
+    },
+    "testing": {
+      "type": "array",
+      "minItems": 2,
+      "items": { "type": "string", "minLength": 10 }
+    }
+  }
+}
