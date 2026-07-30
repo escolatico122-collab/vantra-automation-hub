@@ -1,0 +1,45 @@
+{
+  "id": "instagram-jewelry-faq",
+  "name": "Instagram Jewelry Store FAQ Assistant",
+  "platform": "instagram",
+  "category": "customer-support",
+  "difficulty": "beginner",
+  "description": "Replies to common jewelry-store questions about materials, availability, delivery, care instructions, and human support without inventing product facts.",
+  "inputs": [
+    "approved frequently asked questions",
+    "product catalog or inventory source",
+    "business hours",
+    "human support contact"
+  ],
+  "steps": [
+    {
+      "order": 1,
+      "action": "receive-message",
+      "description": "Receive a customer direct message through the official Instagram messaging integration."
+    },
+    {
+      "order": 2,
+      "action": "classify-question",
+      "description": "Match the message to an approved FAQ category without guessing missing product information."
+    },
+    {
+      "order": 3,
+      "action": "lookup-answer",
+      "description": "Read the approved answer and any current product availability from the configured source."
+    },
+    {
+      "order": 4,
+      "action": "reply-or-escalate",
+      "description": "Send the verified response or transfer the conversation to a person when confidence is low."
+    }
+  ],
+  "privacy": {
+    "storesPersonalData": false,
+    "notes": "Do not include access tokens in the workflow and avoid storing message content unless the business has a documented retention policy."
+  },
+  "testing": [
+    "Ask a question that has an approved FAQ answer and confirm the exact answer is returned.",
+    "Ask about an unknown product and confirm the assistant escalates instead of inventing details.",
+    "Send a message containing personal information and verify it is not written to logs by default."
+  ]
+}
