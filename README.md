@@ -24,32 +24,42 @@ Start with the issues labeled **`good first issue`**. Each task has clear accept
 
 ```bash
 git clone <repository-url>
-cd vantra-automation-hub
-npm install
+cd mi-primer-proyecto/automation-hub
 npm test
 ```
 
-The project uses only Node.js built-in modules, so there are no production dependencies.
+The Automation Hub uses only Node.js built-in modules, so there are no production dependencies.
 
 ## Repository structure
 
 ```text
-recipes/                 Reusable automation recipes
-schemas/                 JSON schema for recipes
-scripts/                 Validation tools
-examples/                Example payloads and templates
-docs/                    Guides and roadmap
-.github/                  Contribution templates and CI
+automation-hub/
+├── recipes/                 Reusable automation recipes
+├── schemas/                 JSON schema for recipes
+├── scripts/                 Validation tools
+└── docs/                    Guides and roadmap
+.github/                      Contribution templates and CI
+CONTRIBUTING.md               Contribution rules
+CODE_OF_CONDUCT.md            Community standards
+SECURITY.md                   Security reporting guidance
 ```
 
 ## Add your first recipe
 
 1. Read [`CONTRIBUTING.md`](CONTRIBUTING.md).
 2. Choose an open `good first issue`.
-3. Copy an existing file from `recipes/`.
+3. Copy an existing file from [`automation-hub/recipes/`](automation-hub/recipes/).
 4. Change the ID, description, steps, inputs, privacy notes, and testing checklist.
-5. Run `npm test`.
-6. Open a pull request linked to the issue.
+5. Run `cd automation-hub && npm test`.
+6. Open a pull request linked to the Issue.
+
+## Current examples
+
+- Instagram jewelry-store FAQ assistant.
+- WhatsApp lead qualifier with consent and human routing.
+- Telegram order-status assistant.
+- n8n lead logging to Google Sheets.
+- Make missed-lead follow-up.
 
 ## Principles
 
