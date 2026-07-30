@@ -1,0 +1,45 @@
+{
+  "id": "make-missed-lead-followup",
+  "name": "Make Missed Lead Follow-up",
+  "platform": "make",
+  "category": "sales",
+  "difficulty": "intermediate",
+  "description": "Detects a lead that has not received a timely human response, sends one approved follow-up message, and stops automatically when the conversation resumes.",
+  "inputs": [
+    "lead activity source",
+    "follow-up delay threshold",
+    "approved message template",
+    "conversation status field"
+  ],
+  "steps": [
+    {
+      "order": 1,
+      "action": "find-pending-leads",
+      "description": "Query leads whose last inbound message is older than the approved response threshold."
+    },
+    {
+      "order": 2,
+      "action": "confirm-eligibility",
+      "description": "Exclude opted-out, closed, already-followed-up, or recently answered conversations."
+    },
+    {
+      "order": 3,
+      "action": "send-followup",
+      "description": "Send one approved message through the configured channel without inventing urgency or discounts."
+    },
+    {
+      "order": 4,
+      "action": "record-and-stop",
+      "description": "Record the follow-up timestamp and stop future sends when a reply or human update appears."
+    }
+  ],
+  "privacy": {
+    "storesPersonalData": true,
+    "notes": "Use the minimum contact fields, honor opt-outs immediately, restrict scenario logs, and delete stale lead records according to the business retention policy."
+  },
+  "testing": [
+    "Create an eligible synthetic lead and confirm exactly one follow-up is sent after the threshold.",
+    "Mark a lead as opted out and confirm the scenario never sends a message.",
+    "Add a human response before the scheduled follow-up and confirm the message is cancelled."
+  ]
+}
