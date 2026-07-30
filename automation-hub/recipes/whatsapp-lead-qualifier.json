@@ -1,0 +1,45 @@
+{
+  "id": "whatsapp-lead-qualifier",
+  "name": "WhatsApp Small Business Lead Qualifier",
+  "platform": "whatsapp",
+  "category": "lead-management",
+  "difficulty": "intermediate",
+  "description": "Collects a small set of relevant lead details on WhatsApp, scores basic fit using transparent rules, and routes qualified conversations to a human seller.",
+  "inputs": [
+    "approved qualification questions",
+    "service categories",
+    "minimum qualification rules",
+    "sales team routing destination"
+  ],
+  "steps": [
+    {
+      "order": 1,
+      "action": "request-consent",
+      "description": "Explain what information will be collected and ask the person to continue voluntarily."
+    },
+    {
+      "order": 2,
+      "action": "collect-details",
+      "description": "Ask only the approved qualification questions and validate each response before continuing."
+    },
+    {
+      "order": 3,
+      "action": "score-fit",
+      "description": "Apply documented rules to classify the lead without using sensitive personal characteristics."
+    },
+    {
+      "order": 4,
+      "action": "route-conversation",
+      "description": "Send qualified leads to the correct human seller and provide a respectful next step to others."
+    }
+  ],
+  "privacy": {
+    "storesPersonalData": true,
+    "notes": "Store only necessary lead fields, restrict access, define a deletion period, and never use sensitive traits for scoring or routing."
+  },
+  "testing": [
+    "Complete the flow with a qualified test lead and confirm the correct seller receives the summary.",
+    "Decline consent and verify that no personal lead information is stored.",
+    "Provide an invalid response and confirm the workflow asks for correction without entering a loop."
+  ]
+}
