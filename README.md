@@ -24,7 +24,7 @@ Start with the issues labeled **`good first issue`**. Each task has clear accept
 
 ```bash
 git clone <repository-url>
-cd mi-primer-proyecto/automation-hub
+cd <repository-folder>/automation-hub
 npm test
 ```
 
