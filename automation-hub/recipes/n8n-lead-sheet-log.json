@@ -1,0 +1,45 @@
+{
+  "id": "n8n-lead-sheet-log",
+  "name": "n8n Lead Log to Google Sheets",
+  "platform": "n8n",
+  "category": "lead-management",
+  "difficulty": "beginner",
+  "description": "Validates a webhook lead payload, removes unexpected fields, and appends an approved lead summary to a Google Sheet for a small sales team.",
+  "inputs": [
+    "webhook payload schema",
+    "approved spreadsheet columns",
+    "Google Sheets credential reference",
+    "duplicate detection field"
+  ],
+  "steps": [
+    {
+      "order": 1,
+      "action": "receive-webhook",
+      "description": "Receive the lead payload through an authenticated or unguessable webhook endpoint."
+    },
+    {
+      "order": 2,
+      "action": "validate-fields",
+      "description": "Reject malformed requests and keep only the fields approved for the sales spreadsheet."
+    },
+    {
+      "order": 3,
+      "action": "check-duplicate",
+      "description": "Search the configured identifier to avoid creating repeated lead records."
+    },
+    {
+      "order": 4,
+      "action": "append-row",
+      "description": "Write the sanitized lead summary and a server-generated timestamp to the target sheet."
+    }
+  ],
+  "privacy": {
+    "storesPersonalData": true,
+    "notes": "Restrict spreadsheet access, minimize collected fields, define a retention period, and keep credentials in n8n credential storage rather than workflow JSON."
+  },
+  "testing": [
+    "Send a valid synthetic payload and confirm the approved fields are appended once.",
+    "Send the same payload twice and confirm duplicate detection prevents a second row.",
+    "Send an unexpected private field and verify it is removed before the spreadsheet write."
+  ]
+}
