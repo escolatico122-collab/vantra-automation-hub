@@ -1,0 +1,45 @@
+name: Automation recipe proposal
+description: Suggest a focused automation recipe for a small-business use case
+title: "[Recipe]: "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for proposing a useful automation recipe. Do not include real customer data or private credentials.
+  - type: input
+    id: business-type
+    attributes:
+      label: Business type
+      description: Which specific type of business would use this?
+      placeholder: Example: neighborhood restaurant
+    validations:
+      required: true
+  - type: input
+    id: platform
+    attributes:
+      label: Platform
+      placeholder: Instagram, WhatsApp, Telegram, n8n, Make, email...
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem solved
+      description: Describe the repeated task or customer problem.
+    validations:
+      required: true
+  - type: textarea
+    id: expected-flow
+    attributes:
+      label: Expected automation flow
+      description: List the main steps and where a human should take over.
+    validations:
+      required: true
+  - type: textarea
+    id: privacy
+    attributes:
+      label: Privacy considerations
+      description: What data is used, stored, minimized, or deleted?
+    validations:
+      required: true
