@@ -1,0 +1,34 @@
+name: Validate automation recipes
+
+on:
+  pull_request:
+    paths:
+      - 'automation-hub/**'
+      - '.github/workflows/validate-automation-recipes.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'automation-hub/**'
+      - '.github/workflows/validate-automation-recipes.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: automation-hub
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Validate recipes
+        run: npm test
