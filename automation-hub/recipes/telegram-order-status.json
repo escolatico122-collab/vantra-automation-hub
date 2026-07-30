@@ -1,0 +1,45 @@
+{
+  "id": "telegram-order-status",
+  "name": "Telegram Order Status Assistant",
+  "platform": "telegram",
+  "category": "operations",
+  "difficulty": "beginner",
+  "description": "Lets customers request an order update through Telegram after verifying a limited order reference and returns only the minimum status information needed.",
+  "inputs": [
+    "order reference",
+    "customer verification field",
+    "order status data source",
+    "support escalation destination"
+  ],
+  "steps": [
+    {
+      "order": 1,
+      "action": "request-reference",
+      "description": "Ask the customer for an order reference and one approved verification field."
+    },
+    {
+      "order": 2,
+      "action": "verify-request",
+      "description": "Compare the submitted values with the order source using a rate-limited lookup."
+    },
+    {
+      "order": 3,
+      "action": "return-status",
+      "description": "Return a minimal order status without exposing addresses, payment details, or unrelated records."
+    },
+    {
+      "order": 4,
+      "action": "handle-failure",
+      "description": "Escalate repeated verification failures to support without revealing which value was incorrect."
+    }
+  ],
+  "privacy": {
+    "storesPersonalData": false,
+    "notes": "Do not log verification fields in plain text, limit repeated attempts, and return only the status fields required by the customer."
+  },
+  "testing": [
+    "Use a valid test order and confirm only the approved status fields are returned.",
+    "Use an invalid verification field and confirm no order information is revealed.",
+    "Repeat failed attempts and confirm rate limiting or human escalation is triggered."
+  ]
+}
