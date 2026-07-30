@@ -1,0 +1,14 @@
+{
+  "name": "vantra-automation-hub",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Open-source automation recipes for small businesses",
+  "type": "module",
+  "scripts": {
+    "test": "node scripts/validate-recipes.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT"
+}
