@@ -1,76 +1,102 @@
 # Vantra Automation Hub
 
-Open-source automation recipes for small businesses using Instagram, WhatsApp, Telegram, n8n, Make, email, spreadsheets, and AI.
+[![Validate automation assets](https://github.com/escolatico122-collab/vantra-automation-hub/actions/workflows/validate-automation-recipes.yml/badge.svg)](https://github.com/escolatico122-collab/vantra-automation-hub/actions/workflows/validate-automation-recipes.yml)
+[![Good first issues](https://img.shields.io/github/issues-search/escolatico122-collab/vantra-automation-hub?query=is%3Aopen%20label%3A%22good%20first%20issue%22&label=good%20first%20issues)](https://github.com/escolatico122-collab/vantra-automation-hub/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
 
-> **Status:** Early-stage and actively looking for first-time contributors.
+Open-source, privacy-aware automation recipes and runnable n8n webhook demos for small businesses.
+
+> **Status:** Early-stage, usable for learning and testing, and actively welcoming first-time contributors.
+
+## What is usable today
+
+### Runnable n8n demos
+
+The repository includes three credentials-free workflows that can be imported into n8n and tested through webhooks:
+
+- [Privacy-safe lead qualifier](automation-hub/workflows/n8n/privacy-safe-lead-qualifier.json)
+- [FAQ router with human escalation](automation-hub/workflows/n8n/faq-router.json)
+- [Order-status lookup with identity matching](automation-hub/workflows/n8n/order-status-webhook.json)
+
+Read the [n8n import and testing guide](automation-hub/workflows/n8n/README.md) for copyable test requests.
+
+### Structured automation recipes
+
+Recipes describe business behavior, required inputs, ordered steps, privacy handling, and testing requirements. Current examples cover Instagram, WhatsApp, Telegram, n8n, Make, email, and spreadsheets.
+
+### Automated quality checks
+
+Running `npm test` validates both recipes and n8n workflows. The checks reject incomplete data, duplicate IDs or webhook paths, enabled contributed workflows, embedded credentials, and suspicious secret patterns.
 
 ## Why this project exists
 
-Small businesses often need simple automations but cannot afford expensive platforms or custom development. This repository provides reusable, vendor-neutral recipes that explain what an automation does, what data it needs, how it handles privacy, and how to test it.
-
-## What you can contribute
-
-You do not need to be an expert. Useful contributions include:
-
-- Adding a new automation recipe in JSON.
-- Improving documentation or translations.
-- Adding validator tests.
-- Improving privacy and security guidance.
-- Creating examples for n8n or Make.
-
-Start with the issues labeled **`good first issue`**. Each task has clear acceptance criteria.
+Small businesses often need simple automations but cannot afford expensive platforms or custom development. Public examples are frequently incomplete, unsafe, tied to one vendor, or filled with hidden credentials. Vantra Automation Hub provides small, reviewable building blocks that people can learn from and improve together.
 
 ## Quick start
 
 ```bash
-git clone <repository-url>
-cd <repository-folder>/automation-hub
+git clone https://github.com/escolatico122-collab/vantra-automation-hub.git
+cd vantra-automation-hub/automation-hub
 npm test
 ```
 
-The Automation Hub uses only Node.js built-in modules, so there are no production dependencies.
+The validators use only Node.js built-in modules and require Node.js 18 or newer.
+
+## Make your first contribution
+
+1. Choose an unassigned [`good first issue`](https://github.com/escolatico122-collab/vantra-automation-hub/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22).
+2. Comment before starting so work is not duplicated.
+3. Read [`CONTRIBUTING.md`](CONTRIBUTING.md).
+4. Make one focused, useful change.
+5. Run `cd automation-hub && npm test`.
+6. Open a pull request containing `Closes #ISSUE_NUMBER`.
+7. Respond to review feedback.
+
+No advanced experience is required. Useful contributions include:
+
+- Importable n8n workflows using synthetic data.
+- New automation recipes.
+- Validator tests and bug fixes.
+- Accurate English, Spanish, or Portuguese documentation.
+- Privacy, security, and accessibility improvements.
+- Improvements to the public workflow catalog in [`docs/`](docs/).
+
+Every person whose meaningful pull request is merged can be recognized in [`CONTRIBUTORS.md`](CONTRIBUTORS.md).
 
 ## Repository structure
 
 ```text
 automation-hub/
-├── recipes/                 Reusable automation recipes
-├── schemas/                 JSON schema for recipes
-├── scripts/                 Validation tools
-└── docs/                    Guides and roadmap
-.github/                      Contribution templates and CI
+├── recipes/                 Structured automation recipes
+├── workflows/n8n/           Importable webhook demonstrations
+├── schemas/                 Recipe schema
+├── scripts/                 Recipe and workflow validators
+└── docs/                    Technical guides and roadmap
+docs/                         Static public catalog for GitHub Pages
+.github/                      Issue templates, PR template, and CI
 CONTRIBUTING.md               Contribution rules
+CONTRIBUTORS.md               Public contributor recognition
 CODE_OF_CONDUCT.md            Community standards
 SECURITY.md                   Security reporting guidance
 ```
 
-## Add your first recipe
+## Safety and quality principles
 
-1. Read [`CONTRIBUTING.md`](CONTRIBUTING.md).
-2. Choose an open `good first issue`.
-3. Copy an existing file from [`automation-hub/recipes/`](automation-hub/recipes/).
-4. Change the ID, description, steps, inputs, privacy notes, and testing checklist.
-5. Run `cd automation-hub && npm test`.
-6. Open a pull request linked to the Issue.
+- Never commit secret keys, tokens, passwords, or real customer data.
+- Use synthetic test records and obvious placeholders.
+- Do not claim an integration works unless the submitted asset can be tested.
+- Imported workflows must be disabled by default.
+- Unknown or sensitive cases should route to a person.
+- Every contribution must add real value; artificial or meaningless pull requests are rejected.
 
-## Current examples
+## Production warning
 
-- Instagram jewelry-store FAQ assistant.
-- WhatsApp lead qualifier with consent and human routing.
-- Telegram order-status assistant.
-- n8n lead logging to Google Sheets.
-- Make missed-lead follow-up.
-
-## Principles
-
-- No secret keys, tokens, passwords, or personal customer data.
-- No fake integrations or untested claims.
-- Every recipe must include privacy notes and a testing checklist.
-- Contributions must add real value; meaningless one-line changes will not be accepted.
+The included workflows are safe demonstrations, not turnkey production deployments. A real deployment still needs authentication, rate limiting, approved data sources, retention rules, monitoring, error handling, legal review where appropriate, and a human-escalation process.
 
 ## Español
 
-Vantra Automation Hub es una biblioteca abierta de recetas de automatización para pequeños negocios. Puedes contribuir sin ser experto: agrega una receta, mejora una guía, traduce documentación o añade pruebas. Busca los Issues con la etiqueta **`good first issue`** y sigue las instrucciones de [`CONTRIBUTING.md`](CONTRIBUTING.md).
+Vantra Automation Hub es una biblioteca abierta de recetas y demostraciones importables de n8n para pequeños negocios. Los flujos actuales pueden recibir solicitudes mediante webhooks y responder con datos JSON sin usar credenciales externas.
+
+Para colaborar, selecciona un Issue con la etiqueta `good first issue`, comenta antes de empezar, sigue los criterios de aceptación, ejecuta `npm test` y abre un pull request útil. No se aceptan cambios artificiales creados únicamente para aumentar estadísticas.
 
 ## License
 
