@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Free, privacy-aware automation recipes and runnable n8n demos for small businesses.">
+  <title>Vantra Automation Hub</title>
+  <style>
+    :root{color-scheme:dark;--bg:#080b10;--panel:#111720;--line:#263142;--text:#f6f7f9;--muted:#a8b2c2;--accent:#74f0bd;--accent2:#80a7ff}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 15% 0,#16243a 0,transparent 35%),var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.6}a{color:inherit}.wrap{width:min(1120px,calc(100% - 36px));margin:auto}.nav{display:flex;justify-content:space-between;align-items:center;padding:24px 0}.brand{font-weight:800;letter-spacing:-.03em}.navlinks{display:flex;gap:18px;color:var(--muted);font-size:.95rem}.hero{padding:76px 0 60px}.pill{display:inline-flex;border:1px solid #355047;background:#11241f;color:var(--accent);padding:7px 12px;border-radius:999px;font-size:.82rem;font-weight:700}.hero h1{font-size:clamp(2.8rem,8vw,6rem);line-height:.96;letter-spacing:-.065em;max-width:900px;margin:24px 0}.hero p{max-width:720px;color:var(--muted);font-size:1.15rem}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}.btn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border-radius:12px;padding:12px 17px;font-weight:750;border:1px solid var(--line);background:var(--panel)}.btn.primary{background:var(--accent);color:#06120d;border-color:var(--accent)}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:38px 0 0}.stat,.card,.step,.notice{border:1px solid var(--line);background:linear-gradient(180deg,rgba(21,29,40,.92),rgba(13,18,26,.92));border-radius:18px}.stat{padding:20px}.stat strong{font-size:2rem;display:block}.stat span{color:var(--muted)}section{padding:54px 0}h2{font-size:clamp(2rem,4vw,3.2rem);letter-spacing:-.045em;margin:0 0 12px}.lead{color:var(--muted);max-width:700px;margin:0 0 28px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.card{padding:24px;display:flex;flex-direction:column}.tag{color:var(--accent2);font-weight:800;font-size:.78rem;text-transform:uppercase;letter-spacing:.08em}.card h3{font-size:1.35rem;margin:10px 0}.card p{color:var(--muted);flex:1}.card .btn{margin-top:12px}.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;counter-reset:item}.step{padding:20px}.step:before{counter-increment:item;content:counter(item);display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:#1b2938;color:var(--accent);font-weight:900}.step h3{margin:16px 0 6px}.step p{color:var(--muted);margin:0}.notice{padding:22px;border-color:#4b4430;background:#201c12}.notice strong{color:#ffd675}footer{border-top:1px solid var(--line);padding:30px 0 50px;color:var(--muted)}@media(max-width:820px){.grid,.stats{grid-template-columns:1fr}.steps{grid-template-columns:1fr 1fr}.navlinks{display:none}}@media(max-width:520px){.steps{grid-template-columns:1fr}.hero{padding-top:45px}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="nav"><div class="brand">VANTRA / AUTOMATION HUB</div><div class="navlinks"><a data-repo-link href="#">GitHub</a><a data-issues-link href="#">Good first issues</a></div></nav>
+    <main>
+      <header class="hero">
+        <span class="pill">OPEN SOURCE · BEGINNER FRIENDLY</span>
+        <h1>Useful automation, without hidden credentials.</h1>
+        <p>Vantra Automation Hub is a public collection of privacy-aware automation recipes and runnable n8n webhook demos for small businesses. Learn, download, test, improve, and contribute.</p>
+        <div class="actions"><a class="btn primary" data-issues-link href="#">Choose a first issue</a><a class="btn" data-repo-link href="#">View repository</a></div>
+        <div class="stats"><div class="stat"><strong>3</strong><span>Runnable n8n webhook demos</span></div><div class="stat"><strong>20+</strong><span>Scoped contribution tasks</span></div><div class="stat"><strong>0</strong><span>Credentials committed</span></div></div>
+      </header>
+
+      <section>
+        <h2>Download and run</h2>
+        <p class="lead">Each workflow uses core n8n nodes, imports as disabled, contains synthetic test data, and returns JSON through a webhook.</p>
+        <div class="grid">
+          <article class="card"><span class="tag">Sales</span><h3>Privacy-safe lead qualifier</h3><p>Normalizes a lead, verifies consent, calculates a transparent score, and recommends human review or follow-up.</p><a class="btn download" data-file="privacy-safe-lead-qualifier.json" href="#">Download JSON</a></article>
+          <article class="card"><span class="tag">Support</span><h3>FAQ router</h3><p>Matches a message against approved topics and escalates unknown questions instead of inventing an answer.</p><a class="btn download" data-file="faq-router.json" href="#">Download JSON</a></article>
+          <article class="card"><span class="tag">Operations</span><h3>Order status webhook</h3><p>Checks a synthetic order only after matching both the order ID and email, reducing accidental information disclosure.</p><a class="btn download" data-file="order-status-webhook.json" href="#">Download JSON</a></article>
+        </div>
+      </section>
+
+      <section>
+        <h2>Your first open-source contribution</h2>
+        <p class="lead">You do not need to build an entire application. Pick one focused task and submit one meaningful pull request.</p>
+        <div class="steps"><div class="step"><h3>Pick</h3><p>Choose an unassigned issue labeled good first issue.</p></div><div class="step"><h3>Comment</h3><p>Say you want to work on it so another person does not duplicate it.</p></div><div class="step"><h3>Build</h3><p>Follow the acceptance criteria and run the validation command.</p></div><div class="step"><h3>Submit</h3><p>Open a focused pull request and respond to review feedback.</p></div></div>
+      </section>
+
+      <section><div class="notice"><strong>Not production-ready by default.</strong> These are educational, credentials-free starting points. Real deployments require authentication, rate limiting, approved data sources, retention rules, monitoring, error handling, and human escalation.</div></section>
+    </main>
+    <footer>MIT licensed. Built in public by contributors to Vantra Automation Hub.</footer>
+  </div>
+  <script>
+    const fallback={owner:'escolatico122-collab',repo:'vantra-automation-hub'};
+    const onPages=location.hostname.endsWith('.github.io');
+    const owner=onPages?location.hostname.split('.')[0]:fallback.owner;
+    const repo=onPages?(location.pathname.split('/').filter(Boolean)[0]||fallback.repo):fallback.repo;
+    const repoUrl=`https://github.com/${owner}/${repo}`;
+    document.querySelectorAll('[data-repo-link]').forEach(a=>a.href=repoUrl);
+    document.querySelectorAll('[data-issues-link]').forEach(a=>a.href=`${repoUrl}/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22`);
+    document.querySelectorAll('.download').forEach(a=>{
+      const file=a.dataset.file;
+      a.href=`https://raw.githubusercontent.com/${owner}/${repo}/main/automation-hub/workflows/n8n/${file}`;
+      a.setAttribute('download',file);
+    });
+  </script>
+</body>
+</html>
