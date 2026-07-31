@@ -1,11 +1,13 @@
 {
   "name": "vantra-automation-hub",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
-  "description": "Open-source automation recipes for small businesses",
+  "description": "Open-source automation recipes and runnable n8n demos for small businesses",
   "type": "module",
   "scripts": {
-    "test": "node scripts/validate-recipes.mjs"
+    "test": "node scripts/validate-recipes.mjs && node scripts/validate-n8n-workflows.mjs",
+    "test:recipes": "node scripts/validate-recipes.mjs",
+    "test:workflows": "node scripts/validate-n8n-workflows.mjs"
   },
   "engines": {
     "node": ">=18"
