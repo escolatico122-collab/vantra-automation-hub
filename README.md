@@ -41,6 +41,9 @@ npm test
 
 The validators use only Node.js built-in modules and require Node.js 18 or newer.
 
+For a full walkthrough — including verifying prerequisites, forking, and troubleshooting common
+setup errors — see the [macOS and Linux setup guide](automation-hub/docs/setup-macos-linux.md).
+
 ## Make your first contribution
 
 1. Choose an unassigned [`good first issue`](https://github.com/escolatico122-collab/vantra-automation-hub/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22).
