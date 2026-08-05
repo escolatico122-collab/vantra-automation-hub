@@ -1,0 +1,52 @@
+name: Prepare Vantra video assets
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/prepare-video-assets.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  prepare-assets:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install downloader
+        run: python -m pip install --disable-pip-version-check gdown
+
+      - name: Download original edited videos
+        run: |
+          mkdir -p /tmp/vantra assets/videos assets/posters
+          gdown 'https://drive.google.com/uc?id=1D7JoTU89TM7r37OZJrOWij3EAAOrIjDU' -O /tmp/vantra/roofing-1-original.mp4
+          gdown 'https://drive.google.com/uc?id=1zw7NHWiALARiH2Rn-wiOj6GPFiXuHk2y' -O /tmp/vantra/roofing-2-original.mp4
+          gdown 'https://drive.google.com/uc?id=1kTV_mg5gN6UysJXsPS8rp7W8vF54HbpD' -O /tmp/vantra/plumbing-original.mp4
+
+      - name: Create high-quality web videos
+        run: |
+          ffmpeg -hide_banner -loglevel error -y -i /tmp/vantra/roofing-1-original.mp4 -vf 'scale=1080:-2:flags=lanczos' -c:v libx264 -preset medium -crf 18 -profile:v high -level 4.2 -pix_fmt yuv420p -movflags +faststart -c:a aac -b:a 160k assets/videos/roofing-1.mp4
+          ffmpeg -hide_banner -loglevel error -y -i /tmp/vantra/roofing-2-original.mp4 -vf 'scale=1080:-2:flags=lanczos' -c:v libx264 -preset medium -crf 18 -profile:v high -level 4.2 -pix_fmt yuv420p -movflags +faststart -c:a aac -b:a 160k assets/videos/roofing-2.mp4
+          ffmpeg -hide_banner -loglevel error -y -i /tmp/vantra/plumbing-original.mp4 -vf 'scale=1080:-2:flags=lanczos' -c:v libx264 -preset medium -crf 18 -profile:v high -level 4.2 -pix_fmt yuv420p -movflags +faststart -c:a aac -b:a 160k assets/videos/plumbing.mp4
+
+      - name: Create local poster images
+        run: |
+          ffmpeg -hide_banner -loglevel error -y -ss 0.35 -i assets/videos/roofing-1.mp4 -frames:v 1 -vf 'scale=720:-2:flags=lanczos' -q:v 2 assets/posters/roofing-1.jpg
+          ffmpeg -hide_banner -loglevel error -y -ss 0.35 -i assets/videos/roofing-2.mp4 -frames:v 1 -vf 'scale=720:-2:flags=lanczos' -q:v 2 assets/posters/roofing-2.jpg
+          ffmpeg -hide_banner -loglevel error -y -ss 0.35 -i assets/videos/plumbing.mp4 -frames:v 1 -vf 'scale=720:-2:flags=lanczos' -q:v 2 assets/posters/plumbing.jpg
+          ls -lh assets/videos assets/posters
+
+      - name: Commit generated assets
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/videos assets/posters
+          if git diff --cached --quiet; then
+            echo 'No asset changes to commit.'
+          else
+            git commit -m 'Add locally hosted high-quality portfolio videos'
+            git push
+          fi
