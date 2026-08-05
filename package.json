@@ -1,8 +1,9 @@
 {
-  "name": "remotion-luxury-demo",
+  "name": "vantra-portfolio",
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "build": "node build.js",
     "start": "remotion studio src/index.ts",
     "render": "remotion render src/index.ts LuxuryDemo out/luxury-demo.mp4 --codec=h264 --crf=18"
   },
