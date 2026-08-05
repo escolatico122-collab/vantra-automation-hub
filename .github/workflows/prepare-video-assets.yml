@@ -39,14 +39,49 @@ jobs:
           ffmpeg -hide_banner -loglevel error -y -ss 0.35 -i assets/videos/plumbing.mp4 -frames:v 1 -vf 'scale=720:-2:flags=lanczos' -q:v 2 assets/posters/plumbing.jpg
           ls -lh assets/videos assets/posters
 
-      - name: Commit generated assets
+      - name: Point the page to local videos
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('index.html')
+          html = path.read_text()
+
+          replacements = {
+              'https://drive.google.com/thumbnail?id=1D7JoTU89TM7r37OZJrOWij3EAAOrIjDU&sz=w1600': '/assets/posters/roofing-1.jpg?v=4',
+              'https://drive.google.com/thumbnail?id=1zw7NHWiALARiH2Rn-wiOj6GPFiXuHk2y&sz=w1600': '/assets/posters/roofing-2.jpg?v=4',
+              'https://drive.google.com/thumbnail?id=1kTV_mg5gN6UysJXsPS8rp7W8vF54HbpD&sz=w1600': '/assets/posters/plumbing.jpg?v=4',
+              'https://drive.usercontent.google.com/download?export=download&id=1D7JoTU89TM7r37OZJrOWij3EAAOrIjDU&confirm=t': '/assets/videos/roofing-1.mp4?v=4',
+              'https://drive.usercontent.google.com/download?export=download&id=1zw7NHWiALARiH2Rn-wiOj6GPFiXuHk2y&confirm=t': '/assets/videos/roofing-2.mp4?v=4',
+              'https://drive.usercontent.google.com/download?export=download&id=1kTV_mg5gN6UysJXsPS8rp7W8vF54HbpD&confirm=t': '/assets/videos/plumbing.mp4?v=4',
+              'class="portfolio-video" muted loop playsinline preload="metadata"': 'class="portfolio-video" controls controlsList="nodownload" muted loop playsinline preload="metadata"',
+              'Hover to play': 'Hover or press play',
+          }
+
+          for old, new in replacements.items():
+              html = html.replace(old, new)
+
+          html = html.replace('2026-08-05-hover-hd', '2026-08-05-local-videos-v4')
+          path.write_text(html)
+          PY
+
+      - name: Verify browser-ready files
+        run: |
+          test -s assets/videos/roofing-1.mp4
+          test -s assets/videos/roofing-2.mp4
+          test -s assets/videos/plumbing.mp4
+          grep -q '/assets/videos/roofing-1.mp4' index.html
+          grep -q '/assets/videos/plumbing.mp4' index.html
+          ! grep -q 'drive.usercontent.google.com' index.html
+
+      - name: Commit generated assets and page fix
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add assets/videos assets/posters
+          git add index.html assets/videos assets/posters
           if git diff --cached --quiet; then
-            echo 'No asset changes to commit.'
+            echo 'No changes to commit.'
           else
-            git commit -m 'Add locally hosted high-quality portfolio videos'
+            git commit -m 'Host portfolio videos locally and fix playback'
             git push
           fi
