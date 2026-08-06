@@ -8,10 +8,10 @@ const outputPath = path.join(outDir, 'index.html');
 
 let html = fs.readFileSync(inputPath, 'utf8');
 
-const ids = [
-  '1D7JoTU89TM7r37OZJrOWij3EAAOrIjDU',
-  '1zw7NHWiALARiH2Rn-wiOj6GPFiXuHk2y',
-  '1kTV_mg5gN6UysJXsPS8rp7W8vF54HbpD',
+const videoMap = [
+  ['1D7JoTU89TM7r37OZJrOWij3EAAOrIjDU', '1nWxpQVMR0EP_K_eVhxkIrdCgh_Kwtyqh'],
+  ['1zw7NHWiALARiH2Rn-wiOj6GPFiXuHk2y', '1o6mTIygrFeztPFL8NiV1XABLFcll7LWN'],
+  ['1kTV_mg5gN6UysJXsPS8rp7W8vF54HbpD', '1qrwG1-Cr1FiKKvAcKnAWQoSo2BOutjoE'],
 ];
 
 // Keep branding self-contained and published with the build.
@@ -19,12 +19,16 @@ html = html.replaceAll('/assets/img/vantra-logo-horizontal.png', '/assets/img/va
 html = html.replace(/<link rel="icon"[^>]*>/, '<link rel="icon" href="/favicon.svg?v=4" type="image/svg+xml" />');
 html = html.replace(/<link rel="apple-touch-icon"[^>]*>/, '<link rel="apple-touch-icon" href="/favicon.svg?v=4" />');
 
-// Do not depend on /api/video. Use direct Drive delivery on every deployment.
-for (const id of ids) {
-  const direct = `https://drive.usercontent.google.com/download?export=download&id=${id}&confirm=t`;
-  const escapedId = id.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  html = html.replace(new RegExp(`/api/video\\?id=${escapedId}`, 'g'), direct);
-  html = html.replace(new RegExp(`https://drive\\.usercontent\\.google\\.com/download\\?export=download(?:&amp;|&)id=${escapedId}(?:&amp;|&)confirm=t`, 'g'), direct);
+// Replace only the three video asset IDs with their optimized public versions.
+for (const [oldId, newId] of videoMap) {
+  html = html.replaceAll(oldId, newId);
+  const escapedNewId = newId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const direct = `https://drive.usercontent.google.com/download?export=download&id=${newId}&confirm=t`;
+  html = html.replace(new RegExp(`/api/video\\?id=${escapedNewId}`, 'g'), direct);
+  html = html.replace(
+    new RegExp(`https://drive\\.usercontent\\.google\\.com/download\\?export=download(?:&amp;|&)id=${escapedNewId}(?:&amp;|&)confirm=t`, 'g'),
+    direct
+  );
 }
 
 html = html.replace(/<video([^>]*)>/g, (match, attrs) => {
@@ -53,13 +57,6 @@ const reliabilityScript = `
       if (video.readyState >= 2) tryPlay();
       else video.addEventListener('canplay', tryPlay, { once: true });
     }
-
-    video.addEventListener('stalled', () => {
-      const current = source.src;
-      source.src = current + (current.includes('?') ? '&' : '?') + 'retry=' + Date.now();
-      video.load();
-      if (index === 0) tryPlay();
-    }, { once: true });
   });
 
   document.addEventListener('visibilitychange', () => {
@@ -80,4 +77,4 @@ fs.copyFileSync(
   path.join(outDir, 'assets', 'img', 'vantra-logo-horizontal.svg')
 );
 fs.writeFileSync(outputPath, html);
-console.log(`Built ${outputPath} with direct video sources and intact branding`);
+console.log(`Built ${outputPath} with optimized public videos and intact branding`);
