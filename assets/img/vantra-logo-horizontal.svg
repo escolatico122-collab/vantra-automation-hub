@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 150" role="img" aria-labelledby="title desc">
+  <title id="title">Vantra</title><desc id="desc">Vantra network V logo and wordmark</desc>
+  <defs>
+    <linearGradient id="g" x1="20" y1="15" x2="145" y2="135" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3D16C8"/><stop offset="1" stop-color="#13CFEA"/>
+    </linearGradient>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="#13CFEA" flood-opacity=".22"/></filter>
+  </defs>
+  <g fill="none" stroke="url(#g)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)">
+    <path d="M18 21 67 130 118 21M18 21 63 63 118 21M38 72 74 84 101 72M38 72 63 63 74 84 101 72M67 130 74 84"/>
+  </g>
+  <g fill="url(#g)">
+    <circle cx="18" cy="21" r="9"/><circle cx="63" cy="63" r="8"/><circle cx="38" cy="72" r="10"/><circle cx="74" cy="84" r="9"/><circle cx="67" cy="130" r="9"/><circle cx="101" cy="72" r="10"/><circle cx="118" cy="21" r="9"/>
+  </g>
+  <text x="165" y="103" fill="#F7F9FC" font-family="Inter,Arial,sans-serif" font-size="76" font-weight="700" letter-spacing="16">VANTRA</text>
+</svg>
