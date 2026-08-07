@@ -3,6 +3,8 @@
 [![Validate automation assets](https://github.com/escolatico122-collab/vantra-automation-hub/actions/workflows/validate-automation-recipes.yml/badge.svg)](https://github.com/escolatico122-collab/vantra-automation-hub/actions/workflows/validate-automation-recipes.yml)
 [![Good first issues](https://img.shields.io/github/issues-search/escolatico122-collab/vantra-automation-hub?query=is%3Aopen%20label%3A%22good%20first%20issue%22&label=good%20first%20issues)](https://github.com/escolatico122-collab/vantra-automation-hub/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
 
+[Português (Brasil)](automation-hub/docs/README.pt-BR.md)
+
 Open-source, privacy-aware automation recipes and runnable n8n webhook demos for small businesses.
 
 > **Status:** Early-stage, usable for learning and testing, and actively welcoming first-time contributors.
