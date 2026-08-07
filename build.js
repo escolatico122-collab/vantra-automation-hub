@@ -14,27 +14,23 @@ const videoMap = [
   ['1kTV_mg5gN6UysJXsPS8rp7W8vF54HbpD', '1qrwG1-Cr1FiKKvAcKnAWQoSo2BOutjoE'],
 ];
 
-// Keep branding self-contained and published with the build.
-html = html.replaceAll('/assets/img/vantra-logo-horizontal.png', '/assets/img/vantra-logo-horizontal.svg?v=4');
-html = html.replace(/<link rel="icon"[^>]*>/, '<link rel="icon" href="/favicon.svg?v=4" type="image/svg+xml" />');
-html = html.replace(/<link rel="apple-touch-icon"[^>]*>/, '<link rel="apple-touch-icon" href="/favicon.svg?v=4" />');
+html = html.replaceAll('/assets/img/vantra-logo-horizontal.png', '/assets/img/vantra-logo-horizontal.svg?v=5');
+html = html.replace(/<link rel="icon"[^>]*>/, '<link rel="icon" href="/favicon.svg?v=5" type="image/svg+xml" />');
+html = html.replace(/<link rel="apple-touch-icon"[^>]*>/, '<link rel="apple-touch-icon" href="/favicon.svg?v=5" />');
 
-// Replace only the three video asset IDs with their optimized public versions.
 for (const [oldId, newId] of videoMap) {
   html = html.replaceAll(oldId, newId);
-  const escapedNewId = newId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  const direct = `https://drive.usercontent.google.com/download?export=download&id=${newId}&confirm=t`;
-  html = html.replace(new RegExp(`/api/video\\?id=${escapedNewId}`, 'g'), direct);
-  html = html.replace(
-    new RegExp(`https://drive\\.usercontent\\.google\\.com/download\\?export=download(?:&amp;|&)id=${escapedNewId}(?:&amp;|&)confirm=t`, 'g'),
-    direct
-  );
 }
+
+html = html.replace(/<source src="(?:https:\/\/drive\.usercontent\.google\.com\/download\?[^\"]*id=|\/api\/video\?id=)([^\"&]+)[^\"]*" type="video\/mp4">/g,
+  (_match, id) => `<source src="/api/video?id=${id}" type="video/mp4">`);
 
 html = html.replace(/<video([^>]*)>/g, (match, attrs) => {
   let next = attrs
     .replace(/\s+preload="[^"]*"/g, '')
-    .replace(/\s+fetchpriority="[^"]*"/g, '');
+    .replace(/\s+fetchpriority="[^"]*"/g, '')
+    .replace(/\s+autoplay/g, '')
+    .replace(/\s+controls/g, '');
 
   if (/class="[^"]*auto-video/.test(next)) {
     return `<video${next} preload="auto" fetchpriority="high" autoplay muted loop playsinline>`;
@@ -47,22 +43,67 @@ const reliabilityScript = `
 <script>
 (() => {
   const videos = [...document.querySelectorAll('video')];
+  const cards = [...document.querySelectorAll('.reel')];
+
+  function safePlay(video) {
+    if (!video) return;
+    video.muted = true;
+    const p = video.play();
+    if (p && typeof p.catch === 'function') p.catch(() => {});
+  }
+
+  function reset(video) {
+    if (!video) return;
+    video.pause();
+    try { video.currentTime = 0; } catch (_) {}
+  }
 
   videos.forEach((video, index) => {
-    const source = video.querySelector('source');
-    if (!source) return;
+    video.setAttribute('playsinline', '');
+    video.muted = true;
 
-    const tryPlay = () => video.play().catch(() => {});
     if (index === 0) {
-      if (video.readyState >= 2) tryPlay();
-      else video.addEventListener('canplay', tryPlay, { once: true });
+      const startHero = () => safePlay(video);
+      if (video.readyState >= 2) startHero();
+      else video.addEventListener('canplay', startHero, { once: true });
     }
+
+    video.addEventListener('click', () => {
+      if (video.paused) safePlay(video);
+      else video.pause();
+    });
   });
+
+  cards.forEach((card) => {
+    const video = card.querySelector('video');
+    if (!video) return;
+
+    card.addEventListener('mouseenter', () => safePlay(video));
+    card.addEventListener('mouseleave', () => reset(video));
+    card.addEventListener('focusin', () => safePlay(video));
+    card.addEventListener('focusout', () => reset(video));
+    card.addEventListener('click', (event) => {
+      if (event.target.closest('button,a')) return;
+      if (video.paused) safePlay(video);
+      else video.pause();
+    });
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      const video = entry.target.querySelector('video');
+      if (!video || window.matchMedia('(hover:hover)').matches) return;
+      if (entry.isIntersecting && entry.intersectionRatio >= 0.7) safePlay(video);
+      else reset(video);
+    });
+  }, { threshold: [0, .7, 1] });
+
+  cards.forEach(card => observer.observe(card));
 
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) return;
     const hero = videos[0];
-    if (hero && hero.paused) hero.play().catch(() => {});
+    if (hero && hero.paused) safePlay(hero);
   });
 })();
 </script>`;
@@ -77,4 +118,4 @@ fs.copyFileSync(
   path.join(outDir, 'assets', 'img', 'vantra-logo-horizontal.svg')
 );
 fs.writeFileSync(outputPath, html);
-console.log(`Built ${outputPath} with optimized public videos and intact branding`);
+console.log(`Built ${outputPath} with proxied optimized videos and hover/click playback`);
