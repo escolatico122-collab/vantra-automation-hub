@@ -2,6 +2,9 @@ const ALLOWED_IDS = new Set([
   '1D7JoTU89TM7r37OZJrOWij3EAAOrIjDU',
   '1zw7NHWiALARiH2Rn-wiOj6GPFiXuHk2y',
   '1kTV_mg5gN6UysJXsPS8rp7W8vF54HbpD',
+  '1nWxpQVMR0EP_K_eVhxkIrdCgh_Kwtyqh',
+  '1o6mTIygrFeztPFL8NiV1XABLFcll7LWN',
+  '1qrwG1-Cr1FiKKvAcKnAWQoSo2BOutjoE',
 ]);
 
 export default async function handler(req, res) {
@@ -39,9 +42,10 @@ export default async function handler(req, res) {
     }
 
     res.status(upstream.status === 206 ? 206 : 200);
-    res.setHeader('Content-Type', 'video/mp4');
+    res.setHeader('Content-Type', contentType.startsWith('video/') ? contentType : 'video/mp4');
     res.setHeader('Accept-Ranges', 'bytes');
     res.setHeader('Cache-Control', 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800');
+    res.setHeader('Access-Control-Allow-Origin', '*');
 
     for (const name of ['content-length', 'content-range', 'etag', 'last-modified']) {
       const value = upstream.headers.get(name);
